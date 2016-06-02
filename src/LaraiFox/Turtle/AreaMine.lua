@@ -12,7 +12,7 @@ dofile(TURTLE_DIRECTORY .. "/TurtleUtils.lua")
 
 --- @usage
 local usage = [[
-    Usage: AreaMine <width> <height> <length> [-t]
+AreaMine <width> <height> <length> [-t]
     
 width   - The width of the area. Negative widths result in the turtle going right.
 height  - The height of the area. Negative heights result in the turtle going down.
@@ -21,11 +21,7 @@ length  - The length of the area. Can not be negative.
 ]]
 
 local function main()
-	--     Usage: AreaMine <width> <height> <length> [-t]
-	-- width	- The width of the area. Negative widths result in the turtle going right.
-	-- height	- The height of the area. Negative heights result in the turtle going down.
-	-- length	- The length of the area. Can not be negative.
-	-- -t		- Causes the turtle to place torches as it mines.
+	
 end
 
 main()

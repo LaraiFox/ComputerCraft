@@ -1,0 +1,1385 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>TurtleUtils.lua</title>
+    <link rel="stylesheet" href="ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>ldoc</h1>
+
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Global_turtle_constants">Global turtle constants </a></li>
+<li><a href="#Global_turtle_function_tables">Global turtle function tables </a></li>
+<li><a href="#Local_turtle_constants">Local turtle constants </a></li>
+<li><a href="#Local_turtle_variables">Local turtle variables </a></li>
+<li><a href="#Local_copies_of_default_turtle_functions">Local copies of default turtle functions </a></li>
+<li><a href="#Global_overriden_turtle_functions">Global overriden turtle functions </a></li>
+<li><a href="#Global_turtle_functions">Global turtle functions </a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><strong>TurtleUtils.lua</strong></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>TurtleUtils.lua</code></h1>
+<p>TurtleUtils is a lua file designed to add extra utility functions to ComputerCraft's Turtle API and to slightly modify some of the functions that already
+ exist.</p>
+<p> Some examples of functions that TurtleUtils adds include turning to face a specified direction, moving to a specified location, etc.
+<p> Turtle movement and rotation functions work the same way as before except you can now optionally specify how many times you want the function to repeat
+ rather than calling it multiple times. These functions now also automatically track the turtle's position and the direction it's facing.
+</p>
+    <h3>Info:</h3>
+    <ul>
+        <li><strong>Author</strong>: Larai Fox ( http://pastebin.com/u/LaraiFox )</li>
+    </ul>
+
+
+<h2><a href="#Global_turtle_constants">Global turtle constants </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#turtle.ACT_FRONT">turtle.ACT_FRONT</a></td>
+	<td class="summary">Constant representing the forward action direction index.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle.ACT_ABOVE">turtle.ACT_ABOVE</a></td>
+	<td class="summary">Constant representing the upward action direction index.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle.ACT_BELOW">turtle.ACT_BELOW</a></td>
+	<td class="summary">Constant representing the downward action direction index.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle.AXIS_ORDER_XYZ">turtle.AXIS_ORDER_XYZ</a></td>
+	<td class="summary">Constant representing the XYZ axis order.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle.AXIS_ORDER_XZY">turtle.AXIS_ORDER_XZY</a></td>
+	<td class="summary">Constant representing the XZY axis order.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle.AXIS_ORDER_YXZ">turtle.AXIS_ORDER_YXZ</a></td>
+	<td class="summary">Constant representing the YXZ axis order.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle.AXIS_ORDER_YZX">turtle.AXIS_ORDER_YZX</a></td>
+	<td class="summary">Constant representing the YZX axis order.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle.AXIS_ORDER_ZXY">turtle.AXIS_ORDER_ZXY</a></td>
+	<td class="summary">Constant representing the ZXY axis order.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle.AXIS_ORDER_ZYX">turtle.AXIS_ORDER_ZYX</a></td>
+	<td class="summary">Constant representing the ZYX axis order.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle.LOOK_POSITIVE_Z">turtle.LOOK_POSITIVE_Z</a></td>
+	<td class="summary">Constant representing the positive z look direction index.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle.LOOK_POSITIVE_X">turtle.LOOK_POSITIVE_X</a></td>
+	<td class="summary">Constant representing the positive x look direction index.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle.LOOK_NEGATIVE_Z">turtle.LOOK_NEGATIVE_Z</a></td>
+	<td class="summary">Constant representing the negative z look direction index.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle.LOOK_NEGATIVE_X">turtle.LOOK_NEGATIVE_X</a></td>
+	<td class="summary">Constant representing the negative x look direction index.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle.LOOK_DIRECTION">turtle.LOOK_DIRECTION</a></td>
+	<td class="summary">A table of turtle look directions as Vector2 objects.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle.TURN_LEFT">turtle.TURN_LEFT</a></td>
+	<td class="summary">Index of the turtle.left function</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle.TURN_RIGHT">turtle.TURN_RIGHT</a></td>
+	<td class="summary">Index of the turtle.right function</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle.MOVE_DOWN">turtle.MOVE_DOWN</a></td>
+	<td class="summary">Index of the turtle.down function</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle.MOVE_UP">turtle.MOVE_UP</a></td>
+	<td class="summary">Index of the turtle.up function</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle.MOVE_BACK">turtle.MOVE_BACK</a></td>
+	<td class="summary">Index of the turtle.back function</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle.MOVE_FORWARD">turtle.MOVE_FORWARD</a></td>
+	<td class="summary">Index of the turtle.forward function</td>
+	</tr>
+</table>
+<h2><a href="#Global_turtle_function_tables">Global turtle function tables </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#turtle.ACTION_ATTACK">turtle.ACTION_ATTACK</a></td>
+	<td class="summary">A table of turtle attack commands.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle.ACTION_COMPARE">turtle.ACTION_COMPARE</a></td>
+	<td class="summary">A table of turtle compare commands.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle.ACTION_DETECT">turtle.ACTION_DETECT</a></td>
+	<td class="summary">A table of turtle detect commands.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle.ACTION_DIG">turtle.ACTION_DIG</a></td>
+	<td class="summary">A table of turtle dig commands.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle.ACTION_DROP">turtle.ACTION_DROP</a></td>
+	<td class="summary">A table of turtle drop commands.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle.ACTION_INSPECT">turtle.ACTION_INSPECT</a></td>
+	<td class="summary">A table of turtle inspect commands.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle.ACTION_PLACE">turtle.ACTION_PLACE</a></td>
+	<td class="summary">A table of turtle place commands.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle.ACTION_SUCK">turtle.ACTION_SUCK</a></td>
+	<td class="summary">A table of turtle suck commands.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle.MOVE_COMMAND">turtle.MOVE_COMMAND</a></td>
+	<td class="summary">A table of turtle movement commands.</td>
+	</tr>
+</table>
+<h2><a href="#Local_turtle_constants">Local turtle constants </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#TURTLE_MAX_STORED_LOCATIONS">TURTLE_MAX_STORED_LOCATIONS</a></td>
+	<td class="summary">Maximum number of stored positions allowed</td>
+	</tr>
+</table>
+<h2><a href="#Local_turtle_variables">Local turtle variables </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#turtle_StoredLocations">turtle_StoredLocations</a></td>
+	<td class="summary">A table containing stored Vector3 positions</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle_Position">turtle_Position</a></td>
+	<td class="summary">Vector3 variable tracking the turtle's current position relative to  its position on first running TurtleUtils</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle_Direction">turtle_Direction</a></td>
+	<td class="summary">Integer variable tracking the turtle's current look direction relative to its look direction on first running TurtleUtils</td>
+	</tr>
+</table>
+<h2><a href="#Local_copies_of_default_turtle_functions">Local copies of default turtle functions </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#turtle_Left">turtle_Left ()</a></td>
+	<td class="summary">Default turtle.turnLeft function.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turnRight">turnRight ()</a></td>
+	<td class="summary">Default turtle.turnRight function.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle_Down">turtle_Down ()</a></td>
+	<td class="summary">Default turtle.down function.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle_Up">turtle_Up ()</a></td>
+	<td class="summary">Default turtle.up function.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle_Back">turtle_Back ()</a></td>
+	<td class="summary">Default turtle.back function.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle_Forward">turtle_Forward ()</a></td>
+	<td class="summary">Default turtle.forward function.</td>
+	</tr>
+</table>
+<h2><a href="#Global_overriden_turtle_functions">Global overriden turtle functions </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#turtle.turnLeft">turtle.turnLeft (count)</a></td>
+	<td class="summary">Turns the turtle 90 degrees to the left and decrements <a href="TurtleUtils.html#turtle_Direction">turtle_Direction</a> the number of times specified.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle.turnRight">turtle.turnRight (count)</a></td>
+	<td class="summary">Turns the turtle 90 degrees to the right and increments <a href="TurtleUtils.html#turtle_Direction">turtle_Direction</a> the number of times specified.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle.down">turtle.down (count)</a></td>
+	<td class="summary">Moves the turtle down by one block a specified number of times and decrements <a href="TurtleUtils.html#turtle_Position">turtle_Position</a>'s y value.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle.up">turtle.up (count)</a></td>
+	<td class="summary">Moves the turtle up by one block a specified number of times and increments <a href="TurtleUtils.html#turtle_Position">turtle_Position</a>'s y value.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle.backwards">turtle.backwards (count)</a></td>
+	<td class="summary">Moves the turtle backwards by one block a specified number of times and changes <a href="TurtleUtils.html#turtle_Position">turtle_Position</a> based on the current <a href="TurtleUtils.html#turtle_Direction">turtle_Direction</a>.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle.forwards">turtle.forwards (count)</a></td>
+	<td class="summary">Moves the turtle forwards by one block a specified number of times and changes <a href="TurtleUtils.html#turtle_Position">turtle_Position</a> based on the current <a href="TurtleUtils.html#turtle_Direction">turtle_Direction</a>.</td>
+	</tr>
+</table>
+<h2><a href="#Global_turtle_functions">Global turtle functions </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#turtle.left">turtle.left (count)</a></td>
+	<td class="summary">Adds an alternatively named function identical to <a href="TurtleUtils.html#turtle.turnLeft">turtle.turnLeft</a></td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle.right">turtle.right (count)</a></td>
+	<td class="summary">Adds an alternatively named function identical to <a href="TurtleUtils.html#turtle.turnRight">turtle.turnRight</a></td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle.pathfind">turtle.pathfind (location, map, origin)</a></td>
+	<td class="summary">Attempts to find a path to the specified location using the map parameter as a guide.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle.moveTowards">turtle.moveTowards (location, direction, order)</a></td>
+	<td class="summary">Moves the turtle to the specified location parameter in straight lines along the axes in a certain order.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle.moveTowards-todo1">turtle.moveTowards-todo1</a></td>
+	<td class="summary">write function body</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle.turnTowards">turtle.turnTowards (direction)</a></td>
+	<td class="summary">Turns the turtle to face the direction parameter with as few calls to the turn functions as posible.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle.returnToStart">turtle.returnToStart (direction, order)</a></td>
+	<td class="summary">Moves the turtle back to its starting location in straight lines along the axes in a certain order.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle.storeCurrentLocation">turtle.storeCurrentLocation (i)</a></td>
+	<td class="summary">Stores the turtle's current position and look direction at the
+ specified index.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle.getStoredLocation">turtle.getStoredLocation (i)</a></td>
+	<td class="summary">Gets the position and look direction stored at the specified index.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#turtle.getMaxStoredLocations">turtle.getMaxStoredLocations ()</a></td>
+	<td class="summary">Gets the maximum number of stored locations available.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Global_turtle_constants"></a>Global turtle constants </h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "turtle.ACT_FRONT"></a>
+    <strong>turtle.ACT_FRONT</strong>
+    </dt>
+    <dd>
+    Constant representing the forward action direction index.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle.ACT_ABOVE"></a>
+    <strong>turtle.ACT_ABOVE</strong>
+    </dt>
+    <dd>
+    Constant representing the upward action direction index.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle.ACT_BELOW"></a>
+    <strong>turtle.ACT_BELOW</strong>
+    </dt>
+    <dd>
+    Constant representing the downward action direction index.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle.AXIS_ORDER_XYZ"></a>
+    <strong>turtle.AXIS_ORDER_XYZ</strong>
+    </dt>
+    <dd>
+    Constant representing the XYZ axis order.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle.AXIS_ORDER_XZY"></a>
+    <strong>turtle.AXIS_ORDER_XZY</strong>
+    </dt>
+    <dd>
+    Constant representing the XZY axis order.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle.AXIS_ORDER_YXZ"></a>
+    <strong>turtle.AXIS_ORDER_YXZ</strong>
+    </dt>
+    <dd>
+    Constant representing the YXZ axis order.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle.AXIS_ORDER_YZX"></a>
+    <strong>turtle.AXIS_ORDER_YZX</strong>
+    </dt>
+    <dd>
+    Constant representing the YZX axis order.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle.AXIS_ORDER_ZXY"></a>
+    <strong>turtle.AXIS_ORDER_ZXY</strong>
+    </dt>
+    <dd>
+    Constant representing the ZXY axis order.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle.AXIS_ORDER_ZYX"></a>
+    <strong>turtle.AXIS_ORDER_ZYX</strong>
+    </dt>
+    <dd>
+    Constant representing the ZYX axis order.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle.LOOK_POSITIVE_Z"></a>
+    <strong>turtle.LOOK_POSITIVE_Z</strong>
+    </dt>
+    <dd>
+    Constant representing the positive z look direction index.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle.LOOK_POSITIVE_X"></a>
+    <strong>turtle.LOOK_POSITIVE_X</strong>
+    </dt>
+    <dd>
+    Constant representing the positive x look direction index.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle.LOOK_NEGATIVE_Z"></a>
+    <strong>turtle.LOOK_NEGATIVE_Z</strong>
+    </dt>
+    <dd>
+    Constant representing the negative z look direction index.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle.LOOK_NEGATIVE_X"></a>
+    <strong>turtle.LOOK_NEGATIVE_X</strong>
+    </dt>
+    <dd>
+    Constant representing the negative x look direction index.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle.LOOK_DIRECTION"></a>
+    <strong>turtle.LOOK_DIRECTION</strong>
+    </dt>
+    <dd>
+    A table of turtle look directions as Vector2 objects.
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">[turtle]</span>
+
+        </li>
+        <li><span class="parameter">[turtle]</span>
+
+        </li>
+        <li><span class="parameter">[turtle]</span>
+
+        </li>
+        <li><span class="parameter">[turtle]</span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle.TURN_LEFT"></a>
+    <strong>turtle.TURN_LEFT</strong>
+    </dt>
+    <dd>
+    Index of the turtle.left function
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle.TURN_RIGHT"></a>
+    <strong>turtle.TURN_RIGHT</strong>
+    </dt>
+    <dd>
+    Index of the turtle.right function
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle.MOVE_DOWN"></a>
+    <strong>turtle.MOVE_DOWN</strong>
+    </dt>
+    <dd>
+    Index of the turtle.down function
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle.MOVE_UP"></a>
+    <strong>turtle.MOVE_UP</strong>
+    </dt>
+    <dd>
+    Index of the turtle.up function
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle.MOVE_BACK"></a>
+    <strong>turtle.MOVE_BACK</strong>
+    </dt>
+    <dd>
+    Index of the turtle.back function
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle.MOVE_FORWARD"></a>
+    <strong>turtle.MOVE_FORWARD</strong>
+    </dt>
+    <dd>
+    Index of the turtle.forward function
+
+
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Global_turtle_function_tables"></a>Global turtle function tables </h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "turtle.ACTION_ATTACK"></a>
+    <strong>turtle.ACTION_ATTACK</strong>
+    </dt>
+    <dd>
+    A table of turtle attack commands.
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">[turtle]</span>
+
+        </li>
+        <li><span class="parameter">[turtle]</span>
+
+        </li>
+        <li><span class="parameter">[turtle]</span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle.ACTION_COMPARE"></a>
+    <strong>turtle.ACTION_COMPARE</strong>
+    </dt>
+    <dd>
+    A table of turtle compare commands.
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">[turtle]</span>
+
+        </li>
+        <li><span class="parameter">[turtle]</span>
+
+        </li>
+        <li><span class="parameter">[turtle]</span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle.ACTION_DETECT"></a>
+    <strong>turtle.ACTION_DETECT</strong>
+    </dt>
+    <dd>
+    A table of turtle detect commands.
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">[turtle]</span>
+
+        </li>
+        <li><span class="parameter">[turtle]</span>
+
+        </li>
+        <li><span class="parameter">[turtle]</span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle.ACTION_DIG"></a>
+    <strong>turtle.ACTION_DIG</strong>
+    </dt>
+    <dd>
+    A table of turtle dig commands.
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">[turtle]</span>
+
+        </li>
+        <li><span class="parameter">[turtle]</span>
+
+        </li>
+        <li><span class="parameter">[turtle]</span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle.ACTION_DROP"></a>
+    <strong>turtle.ACTION_DROP</strong>
+    </dt>
+    <dd>
+    A table of turtle drop commands.
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">[turtle]</span>
+
+        </li>
+        <li><span class="parameter">[turtle]</span>
+
+        </li>
+        <li><span class="parameter">[turtle]</span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle.ACTION_INSPECT"></a>
+    <strong>turtle.ACTION_INSPECT</strong>
+    </dt>
+    <dd>
+    A table of turtle inspect commands.
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">[turtle]</span>
+
+        </li>
+        <li><span class="parameter">[turtle]</span>
+
+        </li>
+        <li><span class="parameter">[turtle]</span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle.ACTION_PLACE"></a>
+    <strong>turtle.ACTION_PLACE</strong>
+    </dt>
+    <dd>
+    A table of turtle place commands.
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">[turtle]</span>
+
+        </li>
+        <li><span class="parameter">[turtle]</span>
+
+        </li>
+        <li><span class="parameter">[turtle]</span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle.ACTION_SUCK"></a>
+    <strong>turtle.ACTION_SUCK</strong>
+    </dt>
+    <dd>
+    A table of turtle suck commands.
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">[turtle]</span>
+
+        </li>
+        <li><span class="parameter">[turtle]</span>
+
+        </li>
+        <li><span class="parameter">[turtle]</span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle.MOVE_COMMAND"></a>
+    <strong>turtle.MOVE_COMMAND</strong>
+    </dt>
+    <dd>
+    A table of turtle movement commands.
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">[turtle]</span>
+
+        </li>
+        <li><span class="parameter">[turtle]</span>
+
+        </li>
+        <li><span class="parameter">[turtle]</span>
+
+        </li>
+        <li><span class="parameter">[turtle]</span>
+
+        </li>
+        <li><span class="parameter">[turtle]</span>
+
+        </li>
+        <li><span class="parameter">[turtle]</span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Local_turtle_constants"></a>Local turtle constants </h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "TURTLE_MAX_STORED_LOCATIONS"></a>
+    <strong>TURTLE_MAX_STORED_LOCATIONS</strong>
+    </dt>
+    <dd>
+    Maximum number of stored positions allowed
+
+
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Local_turtle_variables"></a>Local turtle variables </h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "turtle_StoredLocations"></a>
+    <strong>turtle_StoredLocations</strong>
+    </dt>
+    <dd>
+    A table containing stored Vector3 positions
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle_Position"></a>
+    <strong>turtle_Position</strong>
+    </dt>
+    <dd>
+    Vector3 variable tracking the turtle's current position relative to  its position on first running TurtleUtils
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle_Direction"></a>
+    <strong>turtle_Direction</strong>
+    </dt>
+    <dd>
+    Integer variable tracking the turtle's current look direction relative to its look direction on first running TurtleUtils
+
+
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Local_copies_of_default_turtle_functions"></a>Local copies of default turtle functions </h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "turtle_Left"></a>
+    <strong>turtle_Left ()</strong>
+    </dt>
+    <dd>
+    Default turtle.turnLeft function.  Turns the turtle left 90 degrees.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turnRight"></a>
+    <strong>turnRight ()</strong>
+    </dt>
+    <dd>
+    Default turtle.turnRight function.  Turns the turtle right 90 degrees.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle_Down"></a>
+    <strong>turtle_Down ()</strong>
+    </dt>
+    <dd>
+    Default turtle.down function.  Moves the turtle down one block.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle_Up"></a>
+    <strong>turtle_Up ()</strong>
+    </dt>
+    <dd>
+    Default turtle.up function.  Moves the turtle up one block.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle_Back"></a>
+    <strong>turtle_Back ()</strong>
+    </dt>
+    <dd>
+    Default turtle.back function.  Moves the turtle backwards one block.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle_Forward"></a>
+    <strong>turtle_Forward ()</strong>
+    </dt>
+    <dd>
+    Default turtle.forward function.  Moves the turtle forwards one block.
+
+
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Global_overriden_turtle_functions"></a>Global overriden turtle functions </h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "turtle.turnLeft"></a>
+    <strong>turtle.turnLeft (count)</strong>
+    </dt>
+    <dd>
+    Turns the turtle 90 degrees to the left and decrements <a href="TurtleUtils.html#turtle_Direction">turtle_Direction</a> the number of times specified.
+ If count is nil then count defaults to 1. If count is negative the turtle will turn right instead.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">count</span>
+         number of times the turtle will turn left
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle.turnRight"></a>
+    <strong>turtle.turnRight (count)</strong>
+    </dt>
+    <dd>
+    Turns the turtle 90 degrees to the right and increments <a href="TurtleUtils.html#turtle_Direction">turtle_Direction</a> the number of times specified.
+ If count is nil then count defaults to 1. If count is negative the turtle will turn left instead.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">count</span>
+         number of times the turtle will turn right
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle.down"></a>
+    <strong>turtle.down (count)</strong>
+    </dt>
+    <dd>
+    Moves the turtle down by one block a specified number of times and decrements <a href="TurtleUtils.html#turtle_Position">turtle_Position</a>'s y value.
+ If count is nil then count defaults to 1. If count is negative the turtle will move up instead.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">count</span>
+         number of times the turtle will move down
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle.up"></a>
+    <strong>turtle.up (count)</strong>
+    </dt>
+    <dd>
+    Moves the turtle up by one block a specified number of times and increments <a href="TurtleUtils.html#turtle_Position">turtle_Position</a>'s y value.
+ If count is nil then count defaults to 1. If count is negative the turtle will move down instead.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">count</span>
+         number of times the turtle will move up
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle.backwards"></a>
+    <strong>turtle.backwards (count)</strong>
+    </dt>
+    <dd>
+    Moves the turtle backwards by one block a specified number of times and changes <a href="TurtleUtils.html#turtle_Position">turtle_Position</a> based on the current <a href="TurtleUtils.html#turtle_Direction">turtle_Direction</a>.
+ If count is nil then count defaults to 1. If count is negative the turtle will move forwards instead.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">count</span>
+         number of times the turtle will move backwards
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle.forwards"></a>
+    <strong>turtle.forwards (count)</strong>
+    </dt>
+    <dd>
+    Moves the turtle forwards by one block a specified number of times and changes <a href="TurtleUtils.html#turtle_Position">turtle_Position</a> based on the current <a href="TurtleUtils.html#turtle_Direction">turtle_Direction</a>.
+ If count is nil then count defaults to 1. If count is negative the turtle will move backwards instead.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">count</span>
+         number of times the turtle will move forwards
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Global_turtle_functions"></a>Global turtle functions </h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "turtle.left"></a>
+    <strong>turtle.left (count)</strong>
+    </dt>
+    <dd>
+    Adds an alternatively named function identical to <a href="TurtleUtils.html#turtle.turnLeft">turtle.turnLeft</a>
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">count</span>
+         number of times the turtle will turn left
+        </li>
+    </ul>
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="TurtleUtils.html#turtle.turnLeft">turtle.turnLeft</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "turtle.right"></a>
+    <strong>turtle.right (count)</strong>
+    </dt>
+    <dd>
+    Adds an alternatively named function identical to <a href="TurtleUtils.html#turtle.turnRight">turtle.turnRight</a>
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">count</span>
+         number of times the turtle will turn right
+        </li>
+    </ul>
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="TurtleUtils.html#turtle.turnRight">turtle.turnRight</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "turtle.pathfind"></a>
+    <strong>turtle.pathfind (location, map, origin)</strong>
+    </dt>
+    <dd>
+    Attempts to find a path to the specified location using the map parameter as a guide.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">location</span>
+         the destination coordinates
+        </li>
+        <li><span class="parameter">map</span>
+         a map of the area. The map uses 0 to represent empty blocks and 1 for solid blocks.
+        </li>
+        <li><span class="parameter">origin</span>
+         the offset of the map from the turtle's starting location.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        a table of turtle move commands
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle.moveTowards"></a>
+    <strong>turtle.moveTowards (location, direction, order)</strong>
+    </dt>
+    <dd>
+    Moves the turtle to the specified location parameter in straight lines along the axes in a certain order.  When the turtle finishes moving it faces the
+ direction parameter.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">location</span>
+         the destination coordinates
+        </li>
+        <li><span class="parameter">direction</span>
+         the final look direction after moving
+        </li>
+        <li><span class="parameter">order</span>
+         the order of axes the turtle will move along
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle.moveTowards-todo1"></a>
+    <strong>turtle.moveTowards-todo1</strong>
+    </dt>
+    <dd>
+    write function body
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle.turnTowards"></a>
+    <strong>turtle.turnTowards (direction)</strong>
+    </dt>
+    <dd>
+    Turns the turtle to face the direction parameter with as few calls to the turn functions as posible.  If the direction spectified is not between 0 and
+ 3 inclusive the program exits and prints an error.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">direction</span>
+         the direction the turtle should face
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle.returnToStart"></a>
+    <strong>turtle.returnToStart (direction, order)</strong>
+    </dt>
+    <dd>
+    Moves the turtle back to its starting location in straight lines along the axes in a certain order.  When the turtle finishes moving it faces the
+ direction parameter.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">direction</span>
+         the final look direction after moving
+        </li>
+        <li><span class="parameter">order</span>
+         the order of axes the turtle will move along
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle.storeCurrentLocation"></a>
+    <strong>turtle.storeCurrentLocation (i)</strong>
+    </dt>
+    <dd>
+    Stores the turtle's current position and look direction at the
+ specified index.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">i</span>
+         the index at which to store the location
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle.getStoredLocation"></a>
+    <strong>turtle.getStoredLocation (i)</strong>
+    </dt>
+    <dd>
+    Gets the position and look direction stored at the specified index.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">i</span>
+         the index from which to get the location
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+        the stored position</li>
+        <li>
+        the stored look direction</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "turtle.getMaxStoredLocations"></a>
+    <strong>turtle.getMaxStoredLocations ()</strong>
+    </dt>
+    <dd>
+    Gets the maximum number of stored locations available.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        the maximum number of stored locations available
+    </ol>
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
+<i style="float:right;">Last updated 2016-06-02 18:52:43 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>
