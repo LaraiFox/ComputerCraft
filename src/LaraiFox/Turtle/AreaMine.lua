@@ -148,8 +148,6 @@ local main = function(args)
 	parseProgramArgs(args)
 
 	initialize()
-	
-	
 end
 
 main({ ... })
