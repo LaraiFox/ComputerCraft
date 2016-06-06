@@ -44,7 +44,7 @@ local placeTorches = false
 
 --- Checks to make sure a block with an inventory exists in the specified direction. If no block is found with matching criteria it prints an error message
 -- and waits for a block to be placed with matching criteria.
-local checkForInventory = function(direction)
+local function checkForInventory(direction)
 	local success, blockData = turtle.ACTION_INSPECT[direction]()
 	if (not success or not string.find(blockData.name, "chest")) then
 		print("Error, unable to find inventory to store collected items!\n" .. 
@@ -57,7 +57,7 @@ local checkForInventory = function(direction)
 	end
 end
 
-local storeInventory = function()
+local function storeInventory()
 	turtle.turnToFace(CHEST_SIDE_STORAGE["dir"])
 	
 	checkForInventory(CHEST_SIDE_STORAGE["act"])
@@ -71,7 +71,7 @@ local storeInventory = function()
 	end
 end
 
-local resupplyItemSlotType = function(chestSide, slotName, minItemCount)
+local function resupplyItemSlotType(chestSide, slotName, minItemCount)
 	if (not minItemCount) then minItemCount = 64 end
 	
 	turtle.turnToFace(chestSide["dir"])
@@ -96,7 +96,7 @@ local resupplyItemSlotType = function(chestSide, slotName, minItemCount)
 --	end
 end
 
-local onReturnToStart = function()
+local function onReturnToStart()
 	storeInventory()
 	
 	resupplyItemSlotType(CHEST_SIDE_FUEL, SLOT_NAME_FUEL, 64)
@@ -106,7 +106,7 @@ local onReturnToStart = function()
 	end
 end
 
-local parseProgramArgs = function(args)
+local function parseProgramArgs(args)
 	local argTable = {
 		["-t"] = function()
 			placeTorches = true
@@ -128,7 +128,9 @@ local parseProgramArgs = function(args)
 	end
 end
 
-local initialize = function()
+local function initialize()
+	term.write("Initializing program... ")
+
 	local inventorySlotCount = (placeTorches and 14 or 15)
 
 	for i = 1, inventorySlotCount do
@@ -140,14 +142,31 @@ local initialize = function()
 	end
 	
 	turtle.setItemSlotName(16, SLOT_NAME_FUEL)
+	
+	print("Ready!")
+	print("The total area to be mined is " .. width .. "x" .. height .. length .. "x" .. " (" .. (width * height * length) .. " blocks) and torches will be placed at regular intervals.")
+	print("If the size is correct press Enter to continue, if not type 'Q' and press Enter to exit...")
+		
+	local response = read()
+	if (response ~= nil and string.lower(response) == "q") then
+		return false
+	end
+	
+	return true
 end
 
-local 
+local function doMining()
 
-local main = function(args)
+end
+
+local function main(args)
 	parseProgramArgs(args)
 
-	initialize()
+	if (not initialize()) then
+		return
+	end
+	
+	
 end
 
 main({ ... })

@@ -15,12 +15,12 @@ end
 __TURTLE_UTILS_INCLUDED = true
 
 -- EXTERNAL FILES TO BE INCLUDED --
-local LIBRARY_DIRECTORY = "/LaraiFox/Lib"
+local LIBRARY_DIRECTORY = "/laraifox/lib"
 assert(fs.isDir(LIBRARY_DIRECTORY) and fs.exists(LIBRARY_DIRECTORY), "Unable to locate required library files!\n" ..
 	"Please download and run the library installer from http://pastebin.com/kwKXPQTu to run this program.")
 
-dofile(LIBRARY_DIRECTORY .. "/Math/Vector2.lua")
-dofile(LIBRARY_DIRECTORY .. "/Math/Vector3.lua")
+dofile(LIBRARY_DIRECTORY .. "/math/Vector2.lua")
+dofile(LIBRARY_DIRECTORY .. "/math/Vector3.lua")
 
 --- Global turtle constants
 -- @section
