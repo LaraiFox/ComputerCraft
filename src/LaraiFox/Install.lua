@@ -4,43 +4,81 @@
 -- @license GNU General Public License v3.0
 -- @module Install.lua
 
-local LARAIFOX_DIRECTORY = "/laraifox"
-local LIBRARY_DIRECTORY = "/lib"
-local TURTLE_DIRECTORY = "/turtle"
+local CONFIG_FILENAME = ".laraifox.cfg"
 
-local FILE_LIST = {
-	[1] = {
-		["dir"]  = {
-			LARAIFOX_DIRECTORY
+--- @usage
+local USAGE_TEXT = [[
+Install.lua [-d <directory>]
+
+-d      - Specifies a custom installation directory.
+]]
+
+local installDirectory = "/laraifox"
+
+local function parseProgramArgs(args)
+	local argTable = {
+		["-d"] = function(i)
+			installDirectory = args[i + 1]
+			return 1
+		end
+	}
+	
+	for i = 1, #args do
+		local argFunction = argTable[args[i]]
+		
+		assert(argFunction, "Error, invalid parameters. Usage: " .. USAGE_TEXT)
+		
+		i = i + argFunction()
+	end
+end
+
+local function getFileList()
+	local fileList = {
+		[1] = {
+			["dir"]  = "",
+			["name"] = "Uninstall.lua",
+			["url"]  = "HFhGh6aq"
 		},
-		["name"] = "Uninstall.lua",
-		["url"]  = ""
-	},
-	[2] = {
-		["dir"]  = {
-			LARAIFOX_DIRECTORY
+		[2] = {
+			["dir"]  = "",
+			["name"] = "Update.lua",
+			["url"]  = "yPVyzA4K"
 		},
-		["name"] = "Update.lua",
-		["url"]  = ""
-	},
-}
+		[3] = {
+			["dir"]  = "",
+			["name"] = "",
+			["url"]  = ""
+		}
+	}
+	
+	return fileList
+end
+
+local function writeConfigFile()
+	local config = fs.open(CONFIG_FILENAME, "w")
+	
+	config.writeLine("root:\"" .. installDirectory .. "\"")
+	
+	config.close()
+end
 
 local function main(args)
-	if (not fs.exists(LARAIFOX_DIRECTORY)) then
-		fs.makeDir(LARAIFOX_DIRECTORY)
-	end
+	parseProgramArgs(args)
 	
-	for _, file in pairs(FILE_LIST) do
-		local fileDirectory = ""
-		for i = 1, #file["dir"] do
-			fileDirectory = fileDirectory .. file["dir"][i]
-			if (not fs.exists(fileDirectory)) then
-				fs.makeDir(fileDirectory)
-			end
+	local fileList = getFileList()
+
+	if (not fs.exists(INSTALL_FOLDER)) then
+		fs.makeDir(INSTALL_FOLDER)
+	end
+
+	for _, file in pairs(fileList) do
+		local fileDirectory = INSTALL_FOLDER .. file["dir"]
+		if (not fs.exists(fileDirectory)) then
+			fs.makeDir(fileDirectory)
 		end
-		
-		local filePath = fileDirectory .. file["name"]
-		
+
+		local filePath = fileDirectory .. "/" .. file["name"]
+
 		if (not fs.exists(filePath)) then
 			shell.run("pastebin", "get", file["url"], filePath)
 		else
@@ -48,6 +86,8 @@ local function main(args)
 		end
 	end
 	
+	writeConfigFile()
+
 	local installerFilename = shell.getRunningProgram()
 	fs.delete(installerFilename)
 end

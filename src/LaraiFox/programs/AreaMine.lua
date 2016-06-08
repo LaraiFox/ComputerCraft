@@ -4,11 +4,13 @@
 -- @license GNU General Public License v3.0
 -- @module AreaMine.lua
 
-local TURTLE_DIRECTORY = "/LaraiFox/Turtle"
-assert(fs.isDir(TURTLE_DIRECTORY) and fs.exists(TURTLE_DIRECTORY), "Unable to locate required turtle files!\n" .. 
-	"Please download and run the turtle installer from http://pastebin.com/0anzz3sC to run this program.")
+local CONFIG_FILENAME = ".laraifox.cfg"
 
-dofile(TURTLE_DIRECTORY .. "/TurtleUtils.lua")
+local LIBRARY_DIRECTORY = "/laraifox/library"
+assert(fs.isDir(LIBRARY_DIRECTORY) and fs.exists(LIBRARY_DIRECTORY), "Unable to locate required library files!\n" .. 
+	"Please download and run the installer from http://pastebin.com/0anzz3sC to run this program.")
+
+dofile(LIBRARY_DIRECTORY .. "/TurtleUtils.lua")
 
 --- @usage
 local USAGE_TEXT = [[
@@ -119,7 +121,7 @@ local function parseProgramArgs(args)
 	
 	assert(width and height and length, "Error, invalid parameters. Usage: " .. USAGE_TEXT)
 	
-	for i = 4, table.getn(args) do
+	for i = 4, #args do
 		local argFunction = argTable[args[i]]
 		
 		assert(argFunction, "Error, invalid parameters. Usage: " .. USAGE_TEXT)

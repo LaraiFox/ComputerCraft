@@ -7,7 +7,7 @@
 -- @author Larai Fox ( http://pastebin.com/u/LaraiFox )
 -- @module TurtleUtils.lua
 
--- Ensures the  is only included once
+-- Ensures the TurtleUtils file is only included once
 if (__TURTLE_UTILS_INCLUDED) then
 	return
 end
@@ -15,12 +15,12 @@ end
 __TURTLE_UTILS_INCLUDED = true
 
 -- EXTERNAL FILES TO BE INCLUDED --
-local LIBRARY_DIRECTORY = "/laraifox/lib"
+local LIBRARY_DIRECTORY = "/laraifox/library"
 assert(fs.isDir(LIBRARY_DIRECTORY) and fs.exists(LIBRARY_DIRECTORY), "Unable to locate required library files!\n" ..
 	"Please download and run the library installer from http://pastebin.com/kwKXPQTu to run this program.")
 
-dofile(LIBRARY_DIRECTORY .. "/math/Vector2.lua")
-dofile(LIBRARY_DIRECTORY .. "/math/Vector3.lua")
+dofile(LIBRARY_DIRECTORY .. "/Vector2.lua")
+dofile(LIBRARY_DIRECTORY .. "/Vector3.lua")
 
 --- Global turtle constants
 -- @section
